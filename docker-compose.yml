@@ -1,0 +1,72 @@
+services:
+  pipeline:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: deepfaune-uk-pipeline:latest
+    container_name: dfuk-pipeline
+    ports:
+      - "8888:8888"
+    environment:
+      - PYTHONUNBUFFERED=1
+      # GPU library path: onnxruntime-gpu needs the CUDA libs that ship inside the
+      # PyTorch/NVIDIA pip packages. This exposes them so the GPU is used, not CPU.
+      - LD_LIBRARY_PATH=/opt/conda/lib/python3.11/site-packages/nvidia/cublas/lib:/opt/conda/lib/python3.11/site-packages/nvidia/cudnn/lib:/opt/conda/lib/python3.11/site-packages/nvidia/cuda_runtime/lib:/opt/conda/lib/python3.11/site-packages/nvidia/cuda_nvrtc/lib:/opt/conda/lib/python3.11/site-packages/nvidia/cufft/lib:/opt/conda/lib/python3.11/site-packages/nvidia/curand/lib:/opt/conda/lib/python3.11/site-packages/nvidia/cusparse/lib:/opt/conda/lib/python3.11/site-packages/nvidia/cusolver/lib:/opt/conda/lib/python3.11/site-packages/nvidia/nvjitlink/lib:/opt/conda/lib/python3.11/site-packages/nvidia/nccl/lib
+    volumes:
+      - ./work:/workspace
+      - ./lib:/workspace/lib
+      - ./dataset:/dataset
+      # --- OPTIONAL: your existing YOLO dataset, used ONCE by the bootstrap
+      # notebook to seed the pool. Edit the left side to your path and uncomment.
+      # Windows example:  "C:/Users/you/data/YOLO-Dataset:/existing:ro"
+      # Linux/macOS:      "/home/you/data/YOLO-Dataset:/existing:ro"
+      # - "C:/path/to/your/YOLO-Dataset:/existing:ro"
+    command: >
+      jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+      --ServerApp.root_dir=/workspace
+      --ServerApp.token='' --ServerApp.password='' --ServerApp.disable_check_xsrf=True
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    shm_size: "8gb"
+    stdin_open: true
+    tty: true
+
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    image: traptracker-dashboard:latest
+    container_name: dfuk-dashboard
+    ports:
+      - "5000:5000"
+    environment:
+      - DATASET_ROOT=/dataset
+      - JUPYTER_URL=http://localhost:8888/lab
+      - LABELSTUDIO_URL=http://localhost:8080
+    volumes:
+      - ./dataset:/dataset:ro
+      - ./TUTORIAL.md:/app/TUTORIAL.md:ro
+      - ./dashboard/static:/app/static   # drop logo.png here (see static/README.txt)
+    restart: unless-stopped
+
+  labelstudio:
+    # Official Label Studio image (heartexlabs is the current documented name).
+    image: heartexlabs/label-studio:latest
+    container_name: dfuk-labelstudio
+    ports:
+      - "8080:8080"
+    environment:
+      - LABEL_STUDIO_LOCAL_FILES_SERVING_ENABLED=true
+      - LABEL_STUDIO_LOCAL_FILES_DOCUMENT_ROOT=/label-studio/files
+      # let the container create its data dir without permission fuss
+      - LABEL_STUDIO_USERNAME=admin@traptracker.local
+      - LABEL_STUDIO_PASSWORD=changeme123
+    volumes:
+      - ./dataset:/label-studio/files
+      - ./labelstudio-data:/label-studio/data
+    restart: unless-stopped

@@ -1,0 +1,9 @@
+dataset/pool/
+dataset/crops/
+dataset/models/
+dataset/incoming/
+dataset/manifests/
+labelstudio-data/
+**/__pycache__/
+*.pyc
+.ipynb_checkpoints/

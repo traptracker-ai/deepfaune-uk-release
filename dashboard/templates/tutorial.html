@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tutorial — Trap Tracker</title>
+<style>
+  :root{--forest:#1c5932;--leaf:#267133;--ink:#1a2620;--grey:#6b7a72;--line:#dde7e0;--paper:#fff;--paper-2:#f6faf7;}
+  *{box-sizing:border-box} html,body{margin:0}
+  body{background:var(--paper);color:var(--ink);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:820px;margin:0 auto;padding:32px 24px 80px}
+  .top{display:flex;justify-content:space-between;align-items:center;
+    padding-bottom:16px;border-bottom:2px solid var(--forest);margin-bottom:28px;position:sticky;top:0;background:var(--paper)}
+  .top a.back{font-size:13px;color:var(--leaf);font-weight:700;text-decoration:none}
+  .top .bm{font-weight:800;color:var(--forest);letter-spacing:.02em}
+  .top .bm .l{color:var(--leaf)}
+  h1,h2,h3,h4{color:var(--forest);line-height:1.3;margin:1.6em 0 .5em}
+  h1{font-size:28px;border-bottom:1px solid var(--line);padding-bottom:.3em}
+  h2{font-size:22px;border-bottom:1px solid var(--line);padding-bottom:.25em}
+  h3{font-size:18px} h4{font-size:15px;color:var(--leaf)}
+  a{color:var(--leaf)}
+  code{background:var(--paper-2);border:1px solid var(--line);border-radius:4px;
+    padding:1px 5px;font-family:"SFMono-Regular",Consolas,monospace;font-size:.9em;color:var(--forest)}
+  pre{background:#0f1a13;color:#dfeee4;border-radius:8px;padding:14px 16px;overflow-x:auto}
+  pre code{background:none;border:0;color:inherit;padding:0}
+  table{border-collapse:collapse;width:100%;margin:1em 0;font-size:14px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:var(--paper-2);color:var(--forest)}
+  hr{border:0;border-top:1px solid var(--line);margin:2em 0}
+  ul,ol{padding-left:1.4em} li{margin:.25em 0}
+  strong{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <span class="bm"><span class="l">TRAP</span> TRACKER</span>
+    <a class="back" href="/">← Back to dashboard</a>
+  </div>
+  {{ body|safe }}
+</div>
+</body>
+</html>

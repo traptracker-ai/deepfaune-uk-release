@@ -1,0 +1,22 @@
+# Backbone + training
+timm==1.0.11
+# Inference / export (pure-ONNX runtime, no Ultralytics needed at inference)
+onnx==1.17.0
+onnxruntime-gpu==1.20.1
+# Detector re-export helper (optional; runtime inference is ONNX)
+ultralytics==8.3.40
+dill==0.4.1
+# Imaging / data
+pillow==11.0.0
+opencv-python-headless==4.10.0.84
+numpy==2.1.3
+pandas==2.2.3
+scikit-learn==1.6.0
+matplotlib==3.10.0
+# Notebook
+jupyterlab==4.3.4
+ipywidgets==8.1.5
+tqdm==4.67.1
+# NOTE: label-studio-sdk is intentionally NOT installed (it forces numpy<2.0 and
+# conflicts with the stack). Label Studio runs as its own container; the workflow
+# is file-based (write tasks.json -> import in UI -> export export.json).

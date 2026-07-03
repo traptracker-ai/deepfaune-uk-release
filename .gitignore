@@ -1,0 +1,13 @@
+# durable data & models — users generate these locally, don't commit
+dataset/pool/
+dataset/crops/
+dataset/manifests/
+dataset/models/
+dataset/incoming/*
+dataset/ls_import/
+dataset/ls_export/
+labelstudio-data/
+# python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
