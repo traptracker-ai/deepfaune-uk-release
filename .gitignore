@@ -1,17 +1,17 @@
 # durable data & models — users generate these locally, don't commit
-dataset/pool/
+dataset/pool/*
 !dataset/pool/.gitkeep
-dataset/crops/
+dataset/crops/*
 !dataset/crops/.gitkeep
-dataset/manifests/
+dataset/manifests/*
 !dataset/manifests/.gitkeep
-dataset/models/
+dataset/models/*
 !dataset/models/.gitkeep
 dataset/incoming/*
 !dataset/incoming/.gitkeep
-dataset/ls_import/
+dataset/ls_import/*
 !dataset/ls_import/.gitkeep
-dataset/ls_export/
+dataset/ls_export/*
 !dataset/ls_export/.gitkeep
 labelstudio-data/
 
